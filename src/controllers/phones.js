@@ -1,6 +1,6 @@
 // const { throws } = require('assert')
-const phonesModels = require('../model/phones')
-const helper = require('../helper/helpers')
+const phonesModels = require('../models/phones')
+const response = require('../helpers/response')
 const phones = {
     getPhones: async (req, res, next) => {
         const { limit = 4, page = 1, order = "DESC" } = req.query

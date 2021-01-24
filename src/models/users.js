@@ -3,9 +3,9 @@ const { actionQuery } = require('../helpers/actionQuery')
 const usersModels = {
     getUsers: (limit, offset, order, username) => {
         if (!username){
-            return actionQuery(`SELECT id, email, phoneNumber, gender, username, firstName, lastName, bornDate, address, photoProfile FROM users ORDER BY firstName ${order} LIMIT ${offset},${limit}`)
+            return actionQuery(`SELECT id, firstname, lastname, username, email, pin, phonenumber, balance, picture, roleId, activation FROM user ORDER BY firstName ${order} LIMIT ${offset},${limit}`)
         } else {
-            return actionQuery(`SELECT id, email, phoneNumber, gender, username, firstName, lastName, bornDate, address, photoProfile FROM users WHERE username LIKE ? ORDER BY firstName ${order} LIMIT ${offset},${limit}`, `%${username}%`)
+            return actionQuery(`SELECT id, firstname, lastname, username, email, pin, phonenumber, balance, picture, roleId, activation FROM user WHERE username LIKE ? ORDER BY firstName ${order} LIMIT ${offset},${limit}`, `%${username}%`)
         }
     },
     getUserById: (idUser) => {

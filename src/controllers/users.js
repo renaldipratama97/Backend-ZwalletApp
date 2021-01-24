@@ -1,22 +1,21 @@
 const createError = require('http-errors')
 const bcrypt = require('bcrypt')
-const { v4: uuidv4 } = require('uuid')
 const jwt = require('jsonwebtoken')
 const usersModels = require('../models/users')
 const { pagination } = require('../helpers/pagination')
 const { response } = require('../helpers/response')
-const sendEmail = require('../helpers/sendEmail')
-const sendEmailForgotPassword = require('../helpers/sendEmailForgotPassword')
+const sendEmail = require('../helpers/sendMail')
 
 const usersController =  {
-    getUsers: async (req, res, next) => {
+    getAllUsers: async (req, res, next) => {
         const { limit = 4, page = 1, order = "DESC" } = req.query
         const offset = (parseInt(page) - 1) * parseInt(limit)
         const username = req.query.username || null
         
-        const setPagination = await pagination(limit, page, "users", "users")
+        const setPagination = await pagination(limit, page, "users", "user")
         usersModels.getUsers(limit, offset, order, username)
         .then(results => {
+            console.log('Hello')
             const setResults = {
                 pagination: setPagination,
                 users: results
@@ -47,8 +46,7 @@ const usersController =  {
             return next(error)
         })
     },
-    registerUsers: (req, res, next) => {
-        const id = uuidv4()
+    registerUser: (req, res, next) => {
         const { username, email, password } = req.body
         usersModels.checkUsers(email)
         .then((result) => {
@@ -60,7 +58,6 @@ const usersController =  {
             bcrypt.genSalt(10, function (err, salt) {
                 bcrypt.hash(password, salt, function (err, hash) {
                     const data = {
-                        id,
                         username,
                         email,
                         password: hash,
@@ -78,7 +75,7 @@ const usersController =  {
             })
         })
     },
-    loginUsers: (req, res, next) => {
+    loginUser: (req, res, next) => {
         const { email, password } = req.body
         usersModels.checkUsers(email)
         .then((result) => {
@@ -87,21 +84,17 @@ const usersController =  {
                 const error = new createError(401, 'Email or Password Wrong')
                 return next(error)      
             }
-            if(parseInt(user.emailVerification) === 0) {
-                const error = new createError(401, 'Email has not been verified')
-                return next(error)
-            }
+            // if(parseInt(user.emailVerification) === 0) {
+            //     const error = new createError(401, 'Email has not been verified')
+            //     return next(error)
+            // }
             // compare/verify password
             bcrypt.compare(password, user.password, function (err, resCheck) {
                 if (!resCheck) {
                     const error = new createError(401, `Password Wrong `)
                     return next(error)
                 }
-                delete user.password
-                delete user.roleID
-                delete user.updatedAt
-                delete user.createdAt
-                console.log(user)
+
                 // jsonwebtoken
                 // accessToken 
                 jwt.sign({ userId: user.id, email: user.email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '24h' }, function (err, accessToken) {
