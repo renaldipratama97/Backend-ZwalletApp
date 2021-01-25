@@ -8,6 +8,7 @@ const cors = require('cors')
 const authRoute = require('./src/routes/auth')
 const usersRoute = require('./src/routes/users')
 const phoneRoute = require('./src/routes/phones')
+const transferRoute = require('./src/routes/transfer')
 
 // Using CORS
 app.use(cors())
@@ -24,6 +25,7 @@ app.use(morgan('dev'))
 app.use('/auth', authRoute)
 app.use('/users', usersRoute)
 app.use('/phones', phoneRoute)
+app.use('/transfer', transferRoute)
 
 // app.use('/upload', express.static('./uploads'))
 

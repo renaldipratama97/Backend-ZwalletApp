@@ -6,8 +6,7 @@ const phoneController = require('../controllers/phones')
 
 router
 .get('/', phoneController.getPhones)
-.get('/:userId', phoneController.detailPhones)
+.get('/getPhoneByIdUser/:idUser', phoneController.getPhoneByIdUser)
 .post('/', phoneController.insertPhone)
-.put('/:id', phoneController.updatePhone)
 .delete('/:id', phoneController.deletePhone)
 module.exports = router
