@@ -204,13 +204,8 @@ const usersController =  {
     updatepicture: async (req, res, next) => {
         const id = req.params.idUser
 
-        let picture = 'default.jpg'
-        if (req.file) {
-            picture = req.file.filename
-        }
-
         const data = {
-            picture: `${picture}`
+            picture: `${process.env.BASE_URL}/upload/${req.file.filename}`,
         }
         usersModels.updatepicture(id, data)
         .then(() => {
