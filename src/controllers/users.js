@@ -8,7 +8,7 @@ const sendEmail = require('../helpers/sendMail')
 
 const usersController =  {
     getAllUsers: async (req, res, next) => {
-        const { limit = 4, page = 1, order = "DESC" } = req.query
+        const { limit = 4, page = 1, order = "ASC" } = req.query
         const offset = (parseInt(page) - 1) * parseInt(limit)
         const username = req.query.username || null
         
@@ -84,7 +84,7 @@ const usersController =  {
                 const error = new createError(401, 'Email or Password Wrong')
                 return next(error)      
             }
-            // if(parseInt(user.emailVerification) === 0) {
+            // if(parseInt(user.activation) === 0) {
             //     const error = new createError(401, 'Email has not been verified')
             //     return next(error)
             // }
@@ -101,6 +101,7 @@ const usersController =  {
                     // refreshtoken
                     jwt.sign({ userId: user.id, email: user.email }, process.env.REFRESH_TOKEN_KEY, { expiresIn: '48h' }, function (err, refreshToken) {
                         const responseMessage = {
+                            id: user.id,
                             accessToken: accessToken,
                             refreshToken: refreshToken
                         }
@@ -154,6 +155,71 @@ const usersController =  {
         })
         .catch(err => {
             console.log(err)
+            const error = new createError(500, 'Looks like server having trouble')
+            return next(error)
+        })
+    },
+    updatefirstname: (req, res, next) => {
+        const id = req.params.idUser
+        const firstname = req.body.firstname
+
+        data = {
+            firstname
+        }
+        usersModels.updatefirstname(id, data)
+        .then(result => {
+            const resultUser = result
+            response(res, {message: 'Firstname has been updated'}, {
+                status: 'succeed',
+                statusCode: 200
+            }, null)
+        })
+        .catch(err => {
+            console.log(err)
+            const error = new createError(500, 'Looks like server having trouble')
+            return next(error)
+        })
+    },
+    updatelastname: (req, res, next) => {
+        const id = req.params.idUser
+        const lastname = req.body.lastname
+
+        data = {
+            lastname
+        }
+        usersModels.updatelastname(id, data)
+        .then(result => {
+            const resultUser = result
+            response(res, {message: 'Lastname has been updated'}, {
+                status: 'succeed',
+                statusCode: 200
+            }, null)
+        })
+        .catch(err => {
+            console.log(err)
+            const error = new createError(500, 'Looks like server having trouble')
+            return next(error)
+        })
+    },
+    updatepicture: async (req, res, next) => {
+        const id = req.params.idUser
+
+        let picture = 'default.jpg'
+        if (req.file) {
+            picture = req.file.filename
+        }
+
+        const data = {
+            picture: `${picture}`
+        }
+        usersModels.updatepicture(id, data)
+        .then(() => {
+            response(res, {message: 'Picture has been updated'}, {
+                status: 'succeed',
+                statusCode: 200
+            }, null)
+        })
+        .catch((err) => {
             const error = new createError(500, 'Looks like server having trouble')
             return next(error)
         })

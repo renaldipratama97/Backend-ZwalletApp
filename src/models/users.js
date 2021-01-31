@@ -3,9 +3,9 @@ const { actionQuery } = require('../helpers/actionQuery')
 const usersModels = {
     getUsers: (limit, offset, order, username) => {
         if (!username){
-            return actionQuery(`SELECT id, firstname, lastname, username, email, pin, phonenumber, balance, picture, roleId, activation FROM user ORDER BY firstName ${order} LIMIT ${offset},${limit}`)
+            return actionQuery(`SELECT id, firstname, lastname, username, email, pin, phonenumber, balance, picture, roleId, activation FROM user ORDER BY username ${order} LIMIT ${offset},${limit}`)
         } else {
-            return actionQuery(`SELECT id, firstname, lastname, username, email, pin, phonenumber, balance, picture, roleId, activation FROM user WHERE username LIKE ? ORDER BY firstName ${order} LIMIT ${offset},${limit}`, `%${username}%`)
+            return actionQuery(`SELECT id, firstname, lastname, username, email, pin, phonenumber, balance, picture, roleId, activation FROM user WHERE username LIKE ? ORDER BY username ${order} LIMIT ${offset},${limit}`, `%${username}%`)
         }
     },
     getUserById: (idUser) => {
@@ -23,8 +23,14 @@ const usersModels = {
     deleteUser: (idUser) => {
         return actionQuery('DELETE FROM user WHERE id = ?', idUser)
     },
-    updateUser: (id, data) => {
-        return actionQuery(`UPDATE user SET email = '${data.email}', phoneNumber = '${data.phoneNumber}', gender = '${data.gender}', username = '${data.username}', firstName = '${data.firstName}', lastName = '${data.lastName}', bornDate = '${data.bornDate}', address = '${data.address}', photoProfile = '${data.photoProfile}', updatedAt = '${data.updatedAt}' WHERE id = ?`, id)
+    updatefirstname: (id, data) => {
+        return actionQuery(`UPDATE user SET firstname = '${data.firstname}' WHERE id = ?`, id)
+    },
+    updatelastname: (id, data) => {
+        return actionQuery(`UPDATE user SET lastname = '${data.lastname}' WHERE id = ?`, id)
+    },
+    updatepicture: (id, data) => {
+        return actionQuery(`UPDATE user SET picture = '${data.picture}' WHERE id = ?`, id)
     },
     searchRoleId: (userId) => {
         return actionQuery('SELECT roleId FROM user WHERE id = ? ', userId)

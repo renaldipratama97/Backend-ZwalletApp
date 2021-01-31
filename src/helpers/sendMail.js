@@ -92,15 +92,15 @@ const sendEmail = async (email) =>{
     
     <body>
     <div class="container">
-        <h1>CoffeeShop - Team 1</h1>
+        <h1>Zwallet App</h1>
         <div class="box mx-auto mt-5 p-5">
-            <h2>Hai <span style="text-transform:capitalize">${email.replace('@gmail.com', '')}</span></h2>
+            <h2>Hai <span style="text-transform:capitalize">${username}</span></h2>
             <p class="desc mt-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, eius nemo animi autem
             in optio quos libero cupiditate alias ab obcaecati dolores pariatur, officiis nam, assumenda necessitatibus
             harum accusantium tenetur praesentium delectus sit? Ipsum officiis hic laborum architecto delectus! Et.</p>
             <p class="desc mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ducimus, nostrum ea rerum
             quaerat suscipit!</p>
-            <a href="${process.env.BASE_URL_FRONT_END}/emailverification/${email}" class="btn">Verify email</a >
+            <a href="${process.env.BASE_URL_FRONT_END}/auth/activation/${id}" class="btn">Verify email</a >
             <hr>
             <p class="footer">
             Need help? Contact our support team or hit us up on email <a class="email"href="mailto:${process.env.EMAIL_USERNAME}">click in here</a>

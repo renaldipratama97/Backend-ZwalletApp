@@ -20,17 +20,19 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use(morgan('dev'))
-
 // Grouping End-Point
 app.use('/auth', authRoute)
 app.use('/users', usersRoute)
 app.use('/phones', phoneRoute)
 app.use('/transfer', transferRoute)
 
-// app.use('/upload', express.static('./uploads'))
+app.use('/upload', express.static('./uploads'))
 
 // Default Response Unknown End-Point
 app.use('*', (req, res) => {
+    res.json({
+        err: 'Page Not found'
+    })
 })
 
 // Error Handling
