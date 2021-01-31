@@ -3,7 +3,7 @@ const router = express.Router()
 const { getAllUsers, getUserById, deleteUsers, updatefirstname, updatelastname, updatepicture } = require('../controllers/users')
 const multer = require('multer')
 const { uploadMulter } = require('../middleware/upload')
-// const { verifyAccess } = require('../middlewares/auth')
+const authenticationToken = require('../helpers/authenticationToken')
 
 const upload = (req, res, next) => {
     const handleUpload = uploadMulter.single('picture')
@@ -26,10 +26,10 @@ const upload = (req, res, next) => {
   }
 
 router
-.get('/', getAllUsers)
-.get('/:idUser', getUserById)
-.delete('/:idUser', deleteUsers)
-.patch('/updatefirstname/:idUser', updatefirstname)
-.patch('/updatelastname/:idUser', updatelastname)
-.patch('/updatepicture/:idUser', upload, updatepicture)
+.get('/', authenticationToken, getAllUsers)
+.get('/:idUser', authenticationToken, getUserById)
+.delete('/:idUser', authenticationToken, deleteUsers)
+.patch('/updatefirstname/:idUser', authenticationToken, updatefirstname)
+.patch('/updatelastname/:idUser', authenticationToken, updatelastname)
+.patch('/updatepicture/:idUser', authenticationToken, upload, updatepicture)
 module.exports = router

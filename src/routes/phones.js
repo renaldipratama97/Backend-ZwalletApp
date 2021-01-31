@@ -1,12 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const phoneController = require('../controllers/phones')
-// const { cacheAllProducts} = require('../middlewares/redis')
-// const { verifyAccess } = require('../middlewares/auth')
+const authenticationToken = require('../helpers/authenticationToken')
 
 router
-.get('/', phoneController.getPhones)
-.get('/getPhoneByIdUser/:idUser', phoneController.getPhoneByIdUser)
-.post('/', phoneController.insertPhone)
-.delete('/:id', phoneController.deletePhone)
+.get('/', authenticationToken, phoneController.getPhones)
+.get('/getPhoneByIdUser/:idUser', authenticationToken, phoneController.getPhoneByIdUser)
+.post('/', authenticationToken, phoneController.insertPhone)
+.delete('/:id', authenticationToken, phoneController.deletePhone)
 module.exports = router
