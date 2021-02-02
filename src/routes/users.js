@@ -4,6 +4,7 @@ const { getAllUsers, getUserById, deleteUsers, updatefirstname, updatelastname, 
 const multer = require('multer')
 const { uploadMulter } = require('../middleware/upload')
 const authenticationToken = require('../helpers/authenticationToken')
+// const authorizationUser = require('../helpers/authorizationUser')
 
 const upload = (req, res, next) => {
     const handleUpload = uploadMulter.single('picture')

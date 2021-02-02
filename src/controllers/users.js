@@ -219,21 +219,6 @@ const usersController =  {
             return next(error)
         })
     },
-    sendEmailVerification: async (req, res, next) => {
-        const email = req.body.email
-        if(!email) {
-            const error = new createError(400, `Forbidden: Email cannot be empty. `)
-            return next(error)
-        }
-        try {
-            const results = await sendEmail(email)
-            return next()
-        } catch (error) {
-            console.log(error)
-            const errorResult = new createError(500, 'Looks like server having trouble')
-            return next(errorResult)
-        }
-    },
     getRoleId: (req, res, next) => {
         const { id } = req.params
         console.log(id)
@@ -247,27 +232,6 @@ const usersController =  {
         .catch(error => {
 
         })
-    },
-    forgotPassword: (req, res, next) => {
-        const { email } = req.body
-        usersModels.checkUsers(email)
-        .then((result) => {
-            const user = result[0]
-            
-            const link = jwt.sign({ userId: user.id, email: user.email }, process.env.ACCESS_TOKEN_KEY, { expiresIn: '1h' })
-            response(res, {message: link}, {
-                status: 'succeed',
-                statusCode: 200
-            }, null)
-            sendEmailForgotPassword(email, link)
-        })
-        .catch(() => {
-            const errorResult = new createError(404, 'Your email not registered')
-            return next(errorResult)
-        })
-    },
-    emailVerification: (req, res, next) => {
-        const email = req.body.email
     }
 }
 
