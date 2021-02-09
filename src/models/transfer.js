@@ -7,6 +7,9 @@ const transfersModel = {
     getTransferById: (id) => {
         return actionQuery('SELECT * FROM transfer WHERE id = ?', id)
     },
+    getTransaction: (idUser) => {
+        return actionQuery('SELECT transfer.id as idTransfer, transfer.sender_id, transfer.receiver_id, transfer.amount, transfer.notes, user.picture, user.firstname FROM transfer INNER JOIN user ON transfer.receiver_id = user.id WHERE transfer.sender_id = ?', idUser)
+    },
     getTransferByIdUser: (idUser) => {
         return actionQuery('SELECT * FROM transfer WHERE sender_id = ?', idUser)
     },

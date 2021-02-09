@@ -8,7 +8,7 @@ const sendEmail = require('../helpers/sendMail')
 
 const usersController =  {
     getAllUsers: async (req, res, next) => {
-        const { limit = 4, page = 1, order = "ASC" } = req.query
+        const { limit = 5, page = 1, order = "ASC" } = req.query
         const offset = (parseInt(page) - 1) * parseInt(limit)
         const username = req.query.username || null
         
@@ -65,6 +65,7 @@ const usersController =  {
                         createdAt: new Date()
                     }
                     usersModels.insertUsers(data)
+                    sendEmail(username, email)
                     .then(() => {
                         return response(res, {message: 'User Has been created'}, {
                             status: 'succeed',
@@ -215,6 +216,27 @@ const usersController =  {
             }, null)
         })
         .catch((err) => {
+            const error = new createError(500, 'Looks like server having trouble')
+            return next(error)
+        })
+    },
+    updatephonenumber: (req, res, next) => {
+        const id = req.params.idUser
+        const phonenumber = req.body.phonenumber
+
+        data = {
+            phonenumber
+        }
+        usersModels.updatephonenumber(id, data)
+        .then(result => {
+            const resultUser = result
+            response(res, {message: 'Phonenumber has been updated'}, {
+                status: 'succeed',
+                statusCode: 200
+            }, null)
+        })
+        .catch(err => {
+            console.log(err)
             const error = new createError(500, 'Looks like server having trouble')
             return next(error)
         })

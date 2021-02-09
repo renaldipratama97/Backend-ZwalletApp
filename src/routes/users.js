@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getAllUsers, getUserById, deleteUsers, updatefirstname, updatelastname, updatepicture } = require('../controllers/users')
+const { getAllUsers, getUserById, deleteUsers, updatefirstname, updatelastname, updatepicture, updatephonenumber } = require('../controllers/users')
 const multer = require('multer')
 const { uploadMulter } = require('../middleware/upload')
 const authenticationToken = require('../helpers/authenticationToken')
@@ -32,5 +32,6 @@ router
 .delete('/:idUser', authenticationToken, deleteUsers)
 .patch('/updatefirstname/:idUser', authenticationToken, updatefirstname)
 .patch('/updatelastname/:idUser', authenticationToken, updatelastname)
+.patch('/updatephonenumber/:idUser', authenticationToken, updatephonenumber)
 .patch('/updatepicture/:idUser', authenticationToken, upload, updatepicture)
 module.exports = router

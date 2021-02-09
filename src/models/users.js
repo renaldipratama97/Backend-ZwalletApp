@@ -32,6 +32,9 @@ const usersModels = {
     updatepicture: (id, data) => {
         return actionQuery(`UPDATE user SET picture = '${data.picture}' WHERE id = ?`, id)
     },
+    updatephonenumber: (id, data) => {
+        return actionQuery(`UPDATE user SET phonenumber = '${data.phonenumber}' WHERE id = ?`, id)
+    },
     searchRoleId: (id) => {
         return actionQuery('SELECT roleId FROM user WHERE id = ? ', id)
     }

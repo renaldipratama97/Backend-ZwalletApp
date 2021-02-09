@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const sendEmail = async (email) =>{
+const sendEmail = async (username, email) =>{
     const emailTemplate = `<!DOCTYPE html>
     <html lang="en">
     
@@ -68,7 +68,7 @@ const sendEmail = async (email) =>{
     .btn {
         display: block;
         margin: 30px auto 0 auto;
-        background-color: #6A4029;
+        background-color: #6379F4;
         color: white !important;
         border: none;
         width: 115px;
@@ -100,13 +100,13 @@ const sendEmail = async (email) =>{
             harum accusantium tenetur praesentium delectus sit? Ipsum officiis hic laborum architecto delectus! Et.</p>
             <p class="desc mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ducimus, nostrum ea rerum
             quaerat suscipit!</p>
-            <a href="${process.env.BASE_URL_FRONT_END}/auth/activation/${id}" class="btn">Verify email</a >
+            <a href="${process.env.BASE_URL_FRONT_END}/auth/activation/${email}" class="btn">Verify email</a >
             <hr>
             <p class="footer">
             Need help? Contact our support team or hit us up on email <a class="email"href="mailto:${process.env.EMAIL_USERNAME}">click in here</a>
             </p>
         </div>
-        <p class="footer">Sent by CoffeeShop Team 1</p>
+        <p class="footer">Sent by Zwallet Team</p>
     </div>
     </body>
     
