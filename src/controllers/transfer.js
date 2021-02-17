@@ -58,6 +58,22 @@ const transferController =  {
             return next(error)
         })
     },
+    detailTransaction: (req, res, next) => {
+        const id = req.params.idTransfer
+        if(!id){
+            const error = new createError(400, 'Id cannot be empty')
+            return next(error)
+        }
+        tranferModels.getDetailTransaction(id)
+        .then(results => {
+            response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        })
+        .catch((err) => {
+            console.log(err)
+            const error = new createError(500, 'Looks like server having trouble')
+            return next(error)
+        })
+    },
     getTransferByIdUser: async (req, res, next) => {
         const { idUser } = req.params
         if(!idUser){

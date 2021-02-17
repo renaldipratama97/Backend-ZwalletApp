@@ -15,7 +15,6 @@ const usersController =  {
         const setPagination = await pagination(limit, page, "users", "user")
         usersModels.getUsers(limit, offset, order, username)
         .then(results => {
-            console.log('Hello')
             const setResults = {
                 pagination: setPagination,
                 users: results

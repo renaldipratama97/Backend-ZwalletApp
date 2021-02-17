@@ -8,7 +8,10 @@ const transfersModel = {
         return actionQuery('SELECT * FROM transfer WHERE id = ?', id)
     },
     getTransaction: (idUser) => {
-        return actionQuery('SELECT transfer.id as idTransfer, transfer.sender_id, transfer.receiver_id, transfer.amount, transfer.notes, user.picture, user.firstname FROM transfer INNER JOIN user ON transfer.receiver_id = user.id WHERE transfer.sender_id = ?', idUser)
+        return actionQuery('SELECT transfer.id as idTransfer, transfer.sender_id, transfer.receiver_id, transfer.amount, transfer.notes, user.picture, user.firstname FROM transfer INNER JOIN user ON transfer.receiver_id = user.id WHERE transfer.sender_id = ? ORDER BY transfer.id DESC', idUser)
+    },
+    getDetailTransaction: (id) => {
+        return actionQuery('SELECT transfer.id as idTransfer, transfer.sender_id, transfer.receiver_id, transfer.amount, transfer.notes, user.picture, user.firstname, user.lastname, user.phonenumber, transfer.date_time FROM transfer INNER JOIN user ON transfer.receiver_id = user.id WHERE transfer.id = ?', id)
     },
     getTransferByIdUser: (idUser) => {
         return actionQuery('SELECT * FROM transfer WHERE sender_id = ?', idUser)
